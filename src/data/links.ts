@@ -6,9 +6,26 @@ export interface LinkItem {
   iconKey?: string;
 }
 
-export function faviconUrl(url: string, size = 64): string {
-  const domain = new URL(url).hostname;
-  return `https://www.google.com/s2/favicons?domain=${domain}&sz=${size}`;
+const MONOGRAM_COLORS = [
+  '#2563eb',
+  '#7c3aed',
+  '#0891b2',
+  '#059669',
+  '#d97706',
+  '#dc2626',
+  '#db2777',
+  '#4f46e5',
+];
+
+export function monogram(name: string): { letter: string; color: string } {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
+  }
+  return {
+    letter: name.trim().slice(0, 1).toUpperCase(),
+    color: MONOGRAM_COLORS[hash % MONOGRAM_COLORS.length],
+  };
 }
 
 export const searchEngines: LinkItem[] = [
