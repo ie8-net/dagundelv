@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import SearchBar from '../components/SearchBar.astro';
+import LinkSection from '../components/LinkSection.astro';
+import PasswordGenerator from '../components/PasswordGenerator.astro';
+import QRGenerator from '../components/QRGenerator.astro';
+import {
+  aiTools,
+  imageTools,
+  translateTools,
+  adPlatforms,
+  myServices,
+} from '../data/links';
+---
+
+<Layout title="ie8.net — 起始页">
+  <ThemeToggle />
+  <div class="container">
+    <div class="hero">
+      <h1>ie8.net</h1>
+      <p>你的浏览器起始页</p>
+    </div>
+
+    <SearchBar />
+
+    <LinkSection title="我的服务" items={myServices} featured />
+
+    <LinkSection title="AI 工具" items={aiTools} />
+
+    <section class="section">
+      <h2 class="section-title">实用工具</h2>
+      <div class="tool-grid">
+        <PasswordGenerator />
+        <QRGenerator />
+      </div>
+    </section>
+
+    <LinkSection title="图片生成" items={imageTools} />
+
+    <LinkSection title="翻译" items={translateTools} />
+
+    <LinkSection title="广告平台" items={adPlatforms} />
+  </div>
+</Layout>

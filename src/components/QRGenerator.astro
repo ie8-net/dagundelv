@@ -1,0 +1,80 @@
+<div class="tool-card">
+  <div class="tool-header">
+    <span class="card-icon">▦</span>
+    <span class="card-name">二维码生成器</span>
+  </div>
+  <div class="tool-body">
+    <div class="qr-row">
+      <input id="qr-input" type="text" placeholder="输入文本或网址…" />
+      <div id="qr-canvas" class="qr-canvas"></div>
+    </div>
+    <div class="tool-actions">
+      <button id="qr-download" type="button">下载 PNG</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import qrcode from 'qrcode-generator';
+
+  const input = document.getElementById('qr-input') as HTMLInputElement;
+  const canvasWrap = document.getElementById('qr-canvas') as HTMLDivElement;
+  const downloadBtn = document.getElementById('qr-download') as HTMLButtonElement;
+
+  let currentDataUrl = '';
+
+  function render(text: string) {
+    canvasWrap.innerHTML = '';
+    if (!text) {
+      currentDataUrl = '';
+      return;
+    }
+    const qr = qrcode(0, 'M');
+    qr.addData(text);
+    qr.make();
+
+    const cellSize = 5;
+    const margin = 4;
+    const count = qr.getModuleCount();
+    const size = (count + margin * 2) * cellSize;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d')!;
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, size, size);
+    ctx.fillStyle = '#000000';
+    for (let row = 0; row < count; row++) {
+      for (let col = 0; col < count; col++) {
+        if (qr.isDark(row, col)) {
+          ctx.fillRect(
+            (col + margin) * cellSize,
+            (row + margin) * cellSize,
+            cellSize,
+            cellSize
+          );
+        }
+      }
+    }
+    canvasWrap.appendChild(canvas);
+    currentDataUrl = canvas.toDataURL('image/png');
+  }
+
+  let debounce: ReturnType<typeof setTimeout>;
+  input.addEventListener('input', () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => render(input.value.trim()), 150);
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    if (!currentDataUrl) return;
+    const a = document.createElement('a');
+    a.href = currentDataUrl;
+    a.download = 'qrcode.png';
+    a.click();
+  });
+
+  render('https://www.ie8.net');
+  input.value = 'https://www.ie8.net';
+</script>

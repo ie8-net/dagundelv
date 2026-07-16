@@ -1,0 +1,133 @@
+---
+import { searchEngines } from '../data/links';
+---
+
+<div class="search-wrap">
+  <form id="search-form" class="search-form" action={searchEngines[0].url} method="get">
+    <div id="engine-tabs" class="engine-tabs">
+      {
+        searchEngines.map((engine, i) => (
+          <button
+            type="button"
+            class="engine-tab"
+            data-url={engine.url}
+            data-active={i === 0 ? 'true' : 'false'}
+          >
+            {engine.name}
+          </button>
+        ))
+      }
+    </div>
+    <div class="search-box">
+      <input
+        id="search-input"
+        type="text"
+        placeholder="输入关键词搜索…"
+        autocomplete="off"
+        autofocus
+      />
+      <button type="submit" class="search-submit" aria-label="搜索">🔍</button>
+    </div>
+  </form>
+</div>
+
+<style>
+  .search-wrap {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .engine-tabs {
+    display: flex;
+    gap: 6px;
+  }
+
+  .engine-tab {
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  .engine-tab[data-active='true'] {
+    background: var(--bg-elevated);
+    color: var(--text);
+    box-shadow: var(--shadow);
+    font-weight: 600;
+  }
+
+  .search-box {
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    align-items: center;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    padding: 4px 6px 4px 20px;
+  }
+
+  #search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 15px;
+    color: var(--text);
+    padding: 10px 0;
+  }
+
+  .search-submit {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-size: 15px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const form = document.getElementById('search-form');
+    const input = document.getElementById('search-input');
+    const tabs = document.getElementById('engine-tabs');
+    const buttons = Array.from(tabs.querySelectorAll('.engine-tab'));
+
+    const savedUrl = localStorage.getItem('searchEngineUrl');
+    if (savedUrl) {
+      buttons.forEach((b) => b.setAttribute('data-active', b.dataset.url === savedUrl ? 'true' : 'false'));
+    }
+
+    function activeUrl() {
+      const active = buttons.find((b) => b.dataset.active === 'true');
+      return active ? active.dataset.url : buttons[0].dataset.url;
+    }
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        buttons.forEach((b) => b.setAttribute('data-active', 'false'));
+        btn.setAttribute('data-active', 'true');
+        localStorage.setItem('searchEngineUrl', btn.dataset.url);
+        input.focus();
+      });
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const q = input.value.trim();
+      if (!q) return;
+      window.location.href = activeUrl() + encodeURIComponent(q);
+    });
+  })();
+</script>
