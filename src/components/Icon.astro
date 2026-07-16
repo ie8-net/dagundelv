@@ -1,0 +1,42 @@
+---
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+
+const paths: Record<string, string> = {
+  ip: 'M12 2v3M8.8 6.3c-2.2 1.6-2.2 6 0 7.7M15.2 6.3c2.2 1.6 2.2 6 0 7.7M5.6 3.8c-3.4 3.4-3.4 10 0 13.4M18.4 3.8c3.4 3.4 3.4 10 0 13.4M12 12.3a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6ZM12 15.9V21',
+  cms: 'M6 3.5h9L19 8v12.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1ZM14.5 3.5V8H19M8.5 12.5h7M8.5 15.8h7M8.5 19h4',
+  hub: 'M4 5.5h16a1 1 0 0 1 1 1V17a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1ZM8.5 11a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM21 15l-5.8-5.8a1.4 1.4 0 0 0-2 0L4 18.2',
+  shorturl: 'M9.5 14.5 14.5 9.5M7.3 11.6 5.6 13.3a3.6 3.6 0 0 0 5.1 5.1l1.7-1.7M16.7 12.4l1.7-1.7a3.6 3.6 0 0 0-5.1-5.1L11.6 7.3',
+  key: 'M14.5 3.5a5.5 5.5 0 1 0 3 10.1L19 15v2.5h2.5V20H24v-3l-6.9-6.9A5.5 5.5 0 0 0 14.5 3.5ZM14.5 7a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6Z',
+  qrcode: 'M4 4h6v6H4V4ZM14 4h6v6h-6V4ZM4 14h6v6H4v-6ZM15 15h1.5M15 18.5h1.5M18.5 15H20M18.5 18.5H20M18.5 16.75h-2M6.5 6.5h1M16.5 6.5h1M6.5 16.5h1',
+  plus: 'M12 5.5v13M5.5 12h13',
+  search: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14ZM20 20l-4.3-4.3',
+  close: 'M6 6l12 12M18 6 6 18',
+  sun: 'M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6ZM12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4',
+  moon: 'M20 14.2A8.2 8.2 0 1 1 9.8 4a6.8 6.8 0 0 0 10.2 10.2Z',
+};
+---
+
+<svg
+  class="icon"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  <path d={paths[name]} />
+</svg>
+
+<style>
+  .icon {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+</style>

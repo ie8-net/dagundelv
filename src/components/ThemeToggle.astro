@@ -1,8 +1,10 @@
 ---
+import Icon from './Icon.astro';
 ---
 
 <button id="theme-toggle" aria-label="切换深浅色模式" class="theme-toggle">
-  <span id="theme-icon">🌙</span>
+  <span id="icon-moon"><Icon name="moon" /></span>
+  <span id="icon-sun" hidden><Icon name="sun" /></span>
 </button>
 
 <style>
@@ -12,12 +14,12 @@
     right: 16px;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: var(--radius);
     border: 1px solid var(--border);
     background: var(--bg-elevated);
     box-shadow: var(--shadow);
     cursor: pointer;
-    font-size: 18px;
+    color: var(--text);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,7 +30,8 @@
 <script is:inline>
   (function () {
     const btn = document.getElementById('theme-toggle');
-    const icon = document.getElementById('theme-icon');
+    const moonIcon = document.getElementById('icon-moon');
+    const sunIcon = document.getElementById('icon-sun');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     function current() {
@@ -38,7 +41,9 @@
     }
 
     function render() {
-      icon.textContent = current() === 'dark' ? '☀️' : '🌙';
+      const isDark = current() === 'dark';
+      moonIcon.hidden = isDark;
+      sunIcon.hidden = !isDark;
     }
 
     render();

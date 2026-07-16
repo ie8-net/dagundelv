@@ -1,13 +1,15 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
   name: string;
   desc?: string;
-  icon?: string;
+  iconKey: string;
   modalId: string;
   featured?: boolean;
 }
 
-const { name, desc, icon, modalId, featured = false } = Astro.props;
+const { name, desc, iconKey, modalId, featured = false } = Astro.props;
 ---
 
 <button
@@ -15,7 +17,9 @@ const { name, desc, icon, modalId, featured = false } = Astro.props;
   class={`card card-button ${featured ? 'card-featured' : ''}`}
   data-open-modal={modalId}
 >
-  <span class="card-icon">{icon}</span>
+  <span class="card-icon">
+    <Icon name={iconKey} />
+  </span>
   <span class="card-body">
     <span class="card-name">{name}</span>
     {desc && <span class="card-desc">{desc}</span>}

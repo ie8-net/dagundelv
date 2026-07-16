@@ -1,5 +1,6 @@
 ---
 import { searchEngines } from '../data/links';
+import Icon from './Icon.astro';
 ---
 
 <div class="search-wrap">
@@ -26,7 +27,9 @@ import { searchEngines } from '../data/links';
         autocomplete="off"
         autofocus
       />
-      <button type="submit" class="search-submit" aria-label="搜索">🔍</button>
+      <button type="submit" class="search-submit" aria-label="搜索">
+        <Icon name="search" />
+      </button>
     </div>
   </form>
 </div>
@@ -51,7 +54,7 @@ import { searchEngines } from '../data/links';
     color: var(--text-muted);
     font-size: 14px;
     padding: 7px 14px;
-    border-radius: 999px;
+    border-radius: var(--radius);
     cursor: pointer;
   }
 
@@ -69,9 +72,9 @@ import { searchEngines } from '../data/links';
     align-items: center;
     background: var(--bg-elevated);
     border: 1px solid var(--border);
-    border-radius: 999px;
+    border-radius: 14px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06), 0 1px 24px rgba(0, 0, 0, 0.04);
-    padding: 6px 8px 6px 26px;
+    padding: 6px 8px 6px 20px;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
 
@@ -91,15 +94,23 @@ import { searchEngines } from '../data/links';
   }
 
   .search-submit {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
     border: none;
     background: var(--accent);
     color: var(--accent-contrast);
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-submit :global(.icon) {
+    width: 20px;
+    height: 20px;
   }
 </style>
 
