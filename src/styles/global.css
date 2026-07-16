@@ -87,6 +87,7 @@ a {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -103,10 +104,12 @@ a {
 
 .card-button {
   width: 100%;
+  min-width: 0;
   text-align: left;
   font: inherit;
   color: inherit;
   cursor: pointer;
+  background: var(--bg-elevated);
 }
 
 .card-icon {
