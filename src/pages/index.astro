@@ -31,6 +31,11 @@ import {
   </div>
 
   <div class="container">
+    <section class="section" id="recent-section" hidden>
+      <h2 class="section-title">最近访问</h2>
+      <div class="card-grid" id="recent-grid"></div>
+    </section>
+
     <section class="section">
       <h2 class="section-title">常用工具</h2>
       <div class="card-grid">
@@ -165,4 +170,73 @@ import {
   });
 
   render();
+
+  // --- Recent visits (client-side only, never leaves the browser) ---
+  interface RecentVisit {
+    name: string;
+    href?: string;
+    modalId?: string;
+    ts: number;
+  }
+
+  const RECENT_KEY = 'recentVisits';
+  const RECENT_MAX = 8;
+  const recentSection = document.getElementById('recent-section')!;
+  const recentGrid = document.getElementById('recent-grid')!;
+
+  function loadRecent(): RecentVisit[] {
+    try {
+      return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function saveRecent(list: RecentVisit[]) {
+    localStorage.setItem(RECENT_KEY, JSON.stringify(list));
+  }
+
+  function renderRecent() {
+    const list = loadRecent();
+    if (!list.length) {
+      recentSection.hidden = true;
+      return;
+    }
+    recentSection.hidden = false;
+    recentGrid.innerHTML = list
+      .map((item) => {
+        const mono = monogram(item.name);
+        const tag = item.href ? 'a' : 'button';
+        const attrs = item.href
+          ? `href="${escapeAttr(item.href)}" target="_blank" rel="noopener noreferrer"`
+          : `type="button" data-open-modal="${escapeAttr(item.modalId!)}"`;
+        return `<${tag} class="card" ${attrs}>
+          <span class="card-icon"><span class="card-icon-mono" style="background:${mono.color}">${escapeHtml(mono.letter)}</span></span>
+          <span class="card-body"><span class="card-name">${escapeHtml(item.name)}</span></span>
+        </${tag}>`;
+      })
+      .join('');
+  }
+
+  function recordVisit(entry: Omit<RecentVisit, 'ts'>) {
+    const key = entry.href ?? entry.modalId;
+    const list = loadRecent().filter((x) => (x.href ?? x.modalId) !== key);
+    list.unshift({ ...entry, ts: Date.now() });
+    saveRecent(list.slice(0, RECENT_MAX));
+    renderRecent();
+  }
+
+  document.addEventListener('click', (e) => {
+    const card = (e.target as HTMLElement).closest<HTMLElement>('.card');
+    if (!card || recentGrid.contains(card)) return;
+    const modalId = card.dataset.openModal;
+    if (modalId === 'add-link') return;
+    const href = card.getAttribute('href') ?? undefined;
+    if (!href && !modalId) return;
+    const name = card.querySelector('.card-name')?.textContent?.trim();
+    if (!name) return;
+    recordVisit({ name, href, modalId });
+  });
+
+  renderRecent();
 </script>
