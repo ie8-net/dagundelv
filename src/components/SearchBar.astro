@@ -33,11 +33,11 @@ import { searchEngines } from '../data/links';
 
 <style>
   .search-wrap {
-    margin-top: 48px;
+    margin-top: 28px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
   }
 
   .engine-tabs {
@@ -49,8 +49,8 @@ import { searchEngines } from '../data/links';
     border: none;
     background: transparent;
     color: var(--text-muted);
-    font-size: 13px;
-    padding: 6px 12px;
+    font-size: 14px;
+    padding: 7px 14px;
     border-radius: 999px;
     cursor: pointer;
   }
@@ -64,14 +64,20 @@ import { searchEngines } from '../data/links';
 
   .search-box {
     width: 100%;
-    max-width: 560px;
+    max-width: 680px;
     display: flex;
     align-items: center;
     background: var(--bg-elevated);
     border: 1px solid var(--border);
     border-radius: 999px;
-    box-shadow: var(--shadow);
-    padding: 4px 6px 4px 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06), 0 1px 24px rgba(0, 0, 0, 0.04);
+    padding: 6px 8px 6px 26px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .search-box:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 4px 20px color-mix(in srgb, var(--accent) 20%, transparent);
   }
 
   #search-input {
@@ -79,19 +85,19 @@ import { searchEngines } from '../data/links';
     border: none;
     background: transparent;
     outline: none;
-    font-size: 15px;
+    font-size: 18px;
     color: var(--text);
-    padding: 10px 0;
+    padding: 16px 0;
   }
 
   .search-submit {
-    width: 38px;
-    height: 38px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     border: none;
     background: var(--accent);
     color: var(--accent-contrast);
-    font-size: 15px;
+    font-size: 18px;
     cursor: pointer;
     flex-shrink: 0;
   }

@@ -1,0 +1,23 @@
+---
+interface Props {
+  name: string;
+  desc?: string;
+  icon?: string;
+  modalId: string;
+  featured?: boolean;
+}
+
+const { name, desc, icon, modalId, featured = false } = Astro.props;
+---
+
+<button
+  type="button"
+  class={`card card-button ${featured ? 'card-featured' : ''}`}
+  data-open-modal={modalId}
+>
+  <span class="card-icon">{icon}</span>
+  <span class="card-body">
+    <span class="card-name">{name}</span>
+    {desc && <span class="card-desc">{desc}</span>}
+  </span>
+</button>

@@ -22,5 +22,48 @@ const { title } = Astro.props;
   </head>
   <body>
     <slot />
+    <script is:inline>
+      (function () {
+        let lastFocused = null;
+
+        function openModal(id) {
+          const overlay = document.querySelector(`[data-modal-id="${id}"]`);
+          if (!overlay) return;
+          lastFocused = document.activeElement;
+          overlay.hidden = false;
+          document.body.style.overflow = 'hidden';
+          const input = overlay.querySelector('input, button.modal-close');
+          if (input) input.focus();
+        }
+
+        function closeModal(overlay) {
+          overlay.hidden = true;
+          document.body.style.overflow = '';
+          if (lastFocused) lastFocused.focus();
+        }
+
+        document.addEventListener('click', (e) => {
+          const opener = e.target.closest('[data-open-modal]');
+          if (opener) {
+            openModal(opener.getAttribute('data-open-modal'));
+            return;
+          }
+          const closer = e.target.closest('[data-close-modal]');
+          if (closer) {
+            closeModal(closer.closest('.modal-overlay'));
+            return;
+          }
+          if (e.target.classList && e.target.classList.contains('modal-overlay')) {
+            closeModal(e.target);
+          }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key !== 'Escape') return;
+          const open = document.querySelector('.modal-overlay:not([hidden])');
+          if (open) closeModal(open);
+        });
+      })();
+    </script>
   </body>
 </html>

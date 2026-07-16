@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import SearchBar from '../components/SearchBar.astro';
 import LinkSection from '../components/LinkSection.astro';
+import ToolTriggerCard from '../components/ToolTriggerCard.astro';
+import Modal from '../components/Modal.astro';
 import PasswordGenerator from '../components/PasswordGenerator.astro';
 import QRGenerator from '../components/QRGenerator.astro';
 import {
@@ -24,17 +26,26 @@ import {
 
     <SearchBar />
 
-    <LinkSection title="我的服务" items={myServices} featured />
-
-    <LinkSection title="AI 工具" items={aiTools} />
-
     <section class="section">
-      <h2 class="section-title">实用工具</h2>
-      <div class="tool-grid">
-        <PasswordGenerator />
-        <QRGenerator />
+      <h2 class="section-title">常用工具</h2>
+      <div class="card-grid">
+        {
+          myServices.map((item) => (
+            <a class="card card-featured" href={item.url} target="_blank" rel="noopener noreferrer">
+              <span class="card-icon">{item.icon}</span>
+              <span class="card-body">
+                <span class="card-name">{item.name}</span>
+                {item.desc && <span class="card-desc">{item.desc}</span>}
+              </span>
+            </a>
+          ))
+        }
+        <ToolTriggerCard name="密码生成器" desc="纯本地生成，不上传" icon="🔑" modalId="pwd" featured />
+        <ToolTriggerCard name="二维码生成器" desc="文本 / 网址转二维码" icon="▦" modalId="qr" featured />
       </div>
     </section>
+
+    <LinkSection title="AI 工具" items={aiTools} />
 
     <LinkSection title="图片生成" items={imageTools} />
 
@@ -42,4 +53,12 @@ import {
 
     <LinkSection title="广告平台" items={adPlatforms} />
   </div>
+
+  <Modal id="pwd" title="密码生成器">
+    <PasswordGenerator />
+  </Modal>
+
+  <Modal id="qr" title="二维码生成器">
+    <QRGenerator />
+  </Modal>
 </Layout>
