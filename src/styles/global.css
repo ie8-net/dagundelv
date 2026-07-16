@@ -60,27 +60,45 @@ a {
 }
 
 .container {
-  max-width: 1080px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 0 20px 64px;
+  padding: 0 24px 72px;
 }
 
 .section {
-  margin-top: 40px;
+  margin-top: 48px;
 }
 
 .section-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-muted);
-  margin: 0 0 14px;
-  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 16px;
+  letter-spacing: 0.01em;
+}
+
+.section-title::before {
+  content: '';
+  width: 4px;
+  height: 15px;
+  border-radius: 2px;
+  background: var(--accent);
 }
 
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 12px;
+  gap: 14px;
+}
+
+@media (min-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(172px, 1fr));
+    gap: 16px;
+  }
 }
 
 .card {
@@ -286,17 +304,51 @@ a {
   border: 1px solid var(--border);
 }
 
-.hero {
+.hero-band {
+  position: relative;
+  width: 100%;
+  padding: 88px 20px 64px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.hero-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 60%),
+    radial-gradient(color-mix(in srgb, var(--text) 7%, transparent) 1px, transparent 1px);
+  background-size: auto, 24px 24px;
+  mask-image: radial-gradient(ellipse 65% 90% at 50% 0%, black 40%, transparent 90%);
+  pointer-events: none;
+}
+
+.hero-band-inner {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 28px;
+  text-align: center;
 }
 
-.hero p {
+.tagline {
   color: var(--text-muted);
-  font-size: 13px;
-  margin: 8px 0 0;
+  font-size: 14px;
+  margin: 10px 0 0;
+}
+
+.hero-band .search-wrap {
+  margin-top: 36px;
+}
+
+@media (max-width: 640px) {
+  .hero-band {
+    padding: 56px 20px 44px;
+  }
 }
 
 .modal-overlay {

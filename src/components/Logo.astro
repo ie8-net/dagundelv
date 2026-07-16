@@ -1,5 +1,14 @@
-<div class="logo">
-  <svg class="logo-mark" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+---
+interface Props {
+  large?: boolean;
+}
+
+const { large = false } = Astro.props;
+const size = large ? 40 : 30;
+---
+
+<div class={`logo ${large ? 'logo-lg' : ''}`}>
+  <svg class="logo-mark" width={size} height={size} viewBox="0 0 30 30" aria-hidden="true">
     <rect width="30" height="30" rx="7" class="logo-mark-bg" />
     <text x="15" y="21" text-anchor="middle" class="logo-mark-text">8</text>
   </svg>
@@ -34,5 +43,13 @@
   .logo-word-muted {
     color: var(--text-muted);
     font-weight: 600;
+  }
+
+  .logo-lg .logo-word {
+    font-size: 28px;
+  }
+
+  .logo-lg .logo-mark-text {
+    font-size: 21px;
   }
 </style>
