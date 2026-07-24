@@ -32,14 +32,18 @@ const { title } = Astro.props;
           lastFocused = document.activeElement;
           overlay.hidden = false;
           document.body.style.overflow = 'hidden';
+          requestAnimationFrame(() => overlay.classList.add('is-open'));
           const input = overlay.querySelector('input, button.modal-close');
           if (input) input.focus();
         }
 
         function closeModal(overlay) {
-          overlay.hidden = true;
+          overlay.classList.remove('is-open');
           document.body.style.overflow = '';
           if (lastFocused) lastFocused.focus();
+          window.setTimeout(() => {
+            overlay.hidden = true;
+          }, 160);
         }
 
         document.addEventListener('click', (e) => {

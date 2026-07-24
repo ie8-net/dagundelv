@@ -1,0 +1,28 @@
+---
+import { getBrandIcon } from '../data/brandIcons';
+import Icon from './Icon.astro';
+
+interface Props {
+  name: string;
+  iconKey?: string;
+  brandIcon?: string;
+  color?: string;
+}
+
+const { name, iconKey, brandIcon, color } = Astro.props;
+const brand = getBrandIcon(brandIcon);
+const bg = brand?.hex ?? color ?? '#64748b';
+const letter = name.trim().slice(0, 1).toUpperCase();
+---
+
+<span class="card-icon-mono" style={`background:${bg}`}>
+  {
+    iconKey ? (
+      <Icon name={iconKey} />
+    ) : brand ? (
+      <svg viewBox="0 0 24 24" class="icon" fill="currentColor"><path d={brand.path} /></svg>
+    ) : (
+      letter
+    )
+  }
+</span>

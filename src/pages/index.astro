@@ -8,7 +8,7 @@ import Modal from '../components/Modal.astro';
 import PasswordGenerator from '../components/PasswordGenerator.astro';
 import QRGenerator from '../components/QRGenerator.astro';
 import AddLinkForm from '../components/AddLinkForm.astro';
-import Icon from '../components/Icon.astro';
+import BrandTile from '../components/BrandTile.astro';
 import Logo from '../components/Logo.astro';
 import {
   aiTools,
@@ -31,33 +31,35 @@ import {
   </div>
 
   <div class="container">
-    <section class="section" id="recent-section" hidden>
-      <h2 class="section-title">最近访问</h2>
-      <div class="card-grid" id="recent-grid"></div>
-    </section>
+    <div class="panel">
+      <section class="section" id="recent-section" hidden>
+        <h2 class="section-title">最近访问</h2>
+        <div class="card-grid" id="recent-grid"></div>
+      </section>
 
-    <section class="section">
-      <h2 class="section-title">常用工具</h2>
-      <div class="card-grid">
-        {
-          myServices.map((item) => (
-            <a class="card card-featured" href={item.url} target="_blank" rel="noopener noreferrer">
-              <span class="card-icon">
-                <Icon name={item.iconKey!} />
-              </span>
-              <span class="card-body">
-                <span class="card-name">{item.name}</span>
-                {item.desc && <span class="card-desc">{item.desc}</span>}
-              </span>
-            </a>
-          ))
-        }
-        <ToolTriggerCard name="密码生成器" desc="纯本地生成，不上传" iconKey="key" modalId="pwd" featured />
-        <ToolTriggerCard name="二维码生成器" desc="文本 / 网址转二维码" iconKey="qrcode" modalId="qr" featured />
-        <div id="custom-links-slot" style="display: contents;"></div>
-        <ToolTriggerCard name="添加网址" desc="保存到本机浏览器" iconKey="plus" modalId="add-link" featured />
-      </div>
-    </section>
+      <section class="section">
+        <h2 class="section-title">常用工具</h2>
+        <div class="card-grid">
+          {
+            myServices.map((item) => (
+              <a class="card card-featured" href={item.url} target="_blank" rel="noopener noreferrer">
+                <span class="card-icon">
+                  <BrandTile name={item.name} iconKey={item.iconKey} color={item.color} />
+                </span>
+                <span class="card-body">
+                  <span class="card-name">{item.name}</span>
+                  {item.desc && <span class="card-desc">{item.desc}</span>}
+                </span>
+              </a>
+            ))
+          }
+          <ToolTriggerCard name="密码生成器" desc="纯本地生成，不上传" iconKey="key" color="#D97706" modalId="pwd" featured />
+          <ToolTriggerCard name="二维码生成器" desc="文本 / 网址转二维码" iconKey="qrcode" color="#334155" modalId="qr" featured />
+          <div id="custom-links-slot" style="display: contents;"></div>
+          <ToolTriggerCard name="添加网址" desc="保存到本机浏览器" iconKey="plus" modalId="add-link" featured dashed />
+        </div>
+      </section>
+    </div>
 
     <LinkSection title="AI 工具" items={aiTools} />
 

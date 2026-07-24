@@ -5,20 +5,30 @@ interface Props {
   name: string;
   desc?: string;
   iconKey: string;
+  color?: string;
   modalId: string;
   featured?: boolean;
+  dashed?: boolean;
 }
 
-const { name, desc, iconKey, modalId, featured = false } = Astro.props;
+const { name, desc, iconKey, color, modalId, featured = false, dashed = false } = Astro.props;
 ---
 
 <button
   type="button"
-  class={`card card-button ${featured ? 'card-featured' : ''}`}
+  class={`card card-button ${featured ? 'card-featured' : ''} ${dashed ? 'card-dashed' : ''}`}
   data-open-modal={modalId}
 >
   <span class="card-icon">
-    <Icon name={iconKey} />
+    {
+      dashed ? (
+        <Icon name={iconKey} />
+      ) : (
+        <span class="card-icon-mono" style={`background:${color ?? '#64748b'}`}>
+          <Icon name={iconKey} />
+        </span>
+      )
+    }
   </span>
   <span class="card-body">
     <span class="card-name">{name}</span>
